@@ -1,5 +1,6 @@
-from ply import lex
 import re
+from lexer import lexer
+from parser import parser
 
 
 def read_code(filename):
@@ -14,23 +15,53 @@ def remove_comments(code):
 
 
 
-def process_code(code):
-    clean_code = remove_comments(code)
-    lines = clean_code.split('\n') 
-    lines = [line.strip() for line in lines] 
-    lines = [line for line in lines if line]  #remove empty line
-    return lines
+# def process_code(code):
+#     clean_code = remove_comments(code)
+#     lines = clean_code.split('\n') 
+#     lines = [line.strip() for line in lines] 
+#     lines = [line for line in lines if line]  #remove empty line
+#     return lines
+
+
+def get_clean_code(code):
+    code = remove_comments(code)
+
+    return code
+    
+
+# def get_tokens(code):
+#     lexer.input(code) 
+#     tokens = []
+    
+#     while True:
+#         tok = lexer.token()  
+#         if not tok:
+#             break  
+#         tokens.append({
+#             'type': tok.type,
+#             'value': tok.value,
+#             'line': tok.lineno,  
+#             'position': tok.lexpos  
+#         })
+    
+#     return tokens
+
+def main():
+    filename = "/home/kali/Documents/Password Manager/ProgrammingLanguageForEnglishMajors/test.plem"
+    code = read_code(filename)
+    code = get_clean_code(code)
+    lexer.input(code)
+    result = parser.parse(code)
+    print(result)
 
 
 
-#Tokens
-tokens = ["NUMBERS","PLUS","MINUS","MUL","DIV","LPAREN","RPAREN"]
-t_PLUS   = r'\+'
-t_MINUS  = r'-'
-t_MUL    = r'\*'
-t_DIV    = r'/'
-t_LPAREN = r'\('
-t_RPAREN = r'\)'
-t_ignore = ' \t'
 
 
+
+
+
+
+
+if __name__ == "__main__":
+    main()
